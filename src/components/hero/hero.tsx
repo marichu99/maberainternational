@@ -1,9 +1,6 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useRef } from "react";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { useFinePointer } from "@/hooks/use-fine-pointer";
 import { PointerProvider } from "./pointer-context";
@@ -17,29 +14,10 @@ const HeroCanvas = dynamic(
 export function Hero() {
   const reducedMotion = useReducedMotion();
   const isFinePointer = useFinePointer();
-  const contentRef = useRef<HTMLDivElement>(null);
   // The shader is mouse-reactive; on touch (no persistent pointer) fall back
   // to the same static gradient used for reduced motion, per the mobile rule
   // of simplifying 3D rather than running it unused.
   const useStaticFallback = reducedMotion || !isFinePointer;
-
-  useGSAP(
-    () => {
-      if (reducedMotion || !contentRef.current) return;
-
-      // A slow, continuous drift so the headline reads as floating in the
-      // same liquid as the shader behind it, not pinned in place over it.
-      gsap.to(contentRef.current, {
-        y: "+=16",
-        x: "+=6",
-        duration: 7,
-        ease: "sine.inOut",
-        yoyo: true,
-        repeat: -1,
-      });
-    },
-    { dependencies: [reducedMotion] },
-  );
 
   return (
     <PointerProvider>
@@ -58,10 +36,7 @@ export function Hero() {
         ) : (
           <HeroCanvas />
         )}
-        <div
-          ref={contentRef}
-          className="relative z-10 flex w-full max-w-xl flex-col gap-6 md:max-w-2xl"
-        >
+        <div className="relative z-10 flex w-full max-w-xl flex-col gap-6 md:max-w-2xl">
           <span className="font-sans text-xs uppercase tracking-[0.35em] text-copper">
             Wyoming — Automation Systems for U.S. Businesses
           </span>
