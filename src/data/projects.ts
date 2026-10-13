@@ -14,19 +14,6 @@ export type Project = {
 // Copy below is draft case-study framing — tighten with real numbers once available.
 export const projects: Project[] = [
   {
-    slug: "fundmaster",
-    name: "Fundmaster",
-    blurb: "Pension administration platform.",
-    problem:
-      "A retirement fund operator was running member records, contributions, and statements through spreadsheets and manual reconciliation — slow, error-prone, and hard to audit.",
-    build:
-      "A web platform that automates contribution processing, member statements, and compliance reporting, with role-based access for fund administrators.",
-    result:
-      "Manual reconciliation work cut from days to hours, with an audit trail on every transaction.",
-    colorFrom: "#8B5A2B",
-    colorTo: "#1C1B1A",
-  },
-  {
     slug: "kwamz-ai",
     name: "Kwamz AI",
     blurb: "M-Pesa agent dashboard.",
@@ -37,18 +24,6 @@ export const projects: Project[] = [
     result:
       "Agents and operators get same-day visibility instead of end-of-week reconciliation.",
     colorFrom: "#B87333",
-    colorTo: "#3B2418",
-  },
-  {
-    slug: "bookie-arbitrage",
-    name: "Bookie Arbitrage Scraper",
-    blurb: "Odds-monitoring automation.",
-    problem:
-      "Arbitrage windows between bookmakers close within minutes — tracking odds by hand across multiple sites wasn't fast enough to act on.",
-    build:
-      "A system that polls multiple bookmakers' odds in real time, calculates arbitrage margins, and surfaces actionable opportunities as they appear.",
-    result: "Opportunity detection moved from manual checking to continuous automated monitoring.",
-    colorFrom: "#8A8580",
     colorTo: "#3B2418",
   },
   {

@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProject, projects } from "@/data/projects";
@@ -6,21 +7,13 @@ export function generateStaticParams() {
   return projects.map((project) => ({ slug: project.slug }));
 }
 
-export default async function ProjectPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+async function ProjectContent({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) notFound();
 
   return (
-    <main className="min-h-screen bg-charcoal px-[6vw] py-24 text-bone">
-      <Link href="/#projects" className="text-sm uppercase tracking-[0.3em] text-stone">
-        ← Back
-      </Link>
-
+    <>
       <h1 className="font-display mt-8 text-5xl md:text-7xl">{project.name}</h1>
       <p className="mt-4 max-w-2xl text-xl text-stone">{project.blurb}</p>
 
@@ -51,6 +44,24 @@ export default async function ProjectPage({
           <p className="mt-3 text-bone">{project.result}</p>
         </div>
       </div>
+    </>
+  );
+}
+
+export default function ProjectPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  return (
+    <main className="min-h-screen bg-charcoal px-[6vw] py-24 text-bone">
+      <Link href="/#projects" className="text-sm uppercase tracking-[0.3em] text-stone">
+        ← Back
+      </Link>
+
+      <Suspense fallback={<div className="mt-8 h-[36rem]" aria-hidden />}>
+        <ProjectContent params={params} />
+      </Suspense>
     </main>
   );
 }
