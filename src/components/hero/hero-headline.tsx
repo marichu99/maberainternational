@@ -22,7 +22,9 @@ export function HeroHeadline({ reducedMotion }: { reducedMotion: boolean }) {
     () => {
       if (!headlineRef.current) return;
 
-      const split = SplitText.create(headlineRef.current, { type: "chars" });
+      // "words, chars" (not just "chars") — SplitText wraps each word so the
+      // line can only break between words, not mid-word between char spans.
+      const split = SplitText.create(headlineRef.current, { type: "words, chars" });
       const chars = split.chars as HTMLElement[];
 
       if (reducedMotion) {
