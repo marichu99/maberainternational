@@ -69,9 +69,16 @@ export function Projects() {
               </span>
 
               <span
-                className={`font-display pointer-events-none absolute -top-12 left-1/2 z-10 -translate-x-1/2 rounded-full border border-copper/60 bg-charcoal px-4 py-1.5 text-sm whitespace-nowrap text-bone transition-all duration-300 ${
-                  tagVisible ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
+                className={`font-display pointer-events-none absolute -top-12 left-1/2 z-10 rounded-full border border-copper/60 bg-charcoal px-4 py-1.5 text-sm whitespace-nowrap text-bone transition-all duration-300 ${
+                  tagVisible ? "opacity-100" : "opacity-0"
                 }`}
+                style={{
+                  // The active spine's own translateZ(48px) lift shares this
+                  // same preserve-3d box, so a plain z-index can't keep the
+                  // tag in front of it — real 3D depth wins over paint order.
+                  // Push the tag further forward than any spine ever goes.
+                  transform: `translateX(-50%) translateZ(80px) translateY(${tagVisible ? "0" : "8px"})`,
+                }}
               >
                 {project.blurb}
               </span>
