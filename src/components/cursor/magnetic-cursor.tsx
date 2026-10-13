@@ -44,6 +44,7 @@ function CursorOverlay() {
     window.addEventListener("pointermove", handleMove);
 
     let raf = 0;
+    let previousClosest: HTMLElement | null = null;
 
     const tick = (time: number) => {
       if (dotRef.current) {
@@ -76,10 +77,21 @@ function CursorOverlay() {
       let targetH = DEFAULT_RING_SIZE;
       let targetRadius = DEFAULT_RING_SIZE / 2;
 
-      for (const el of magneticEls) {
-        if (el === closest) continue;
-        el.classList.remove("magnetic-engaged");
-        el.style.transform = "translate(0px, 0px)";
+      // Only mutate an element's style/class when its engaged state actually
+      // changes, rather than resetting every [data-magnetic] node on every
+      // frame. Writing to every match unconditionally — most of which the
+      // cursor never comes near — touches DOM nodes the instant they appear
+      // (including ones still streaming in via PPR) before React has
+      // hydrated them, which produces a style-attribute hydration mismatch.
+      if (closest !== previousClosest) {
+        if (previousClosest) {
+          previousClosest.classList.remove("magnetic-engaged");
+          previousClosest.style.transform = "translate(0px, 0px)";
+        }
+        if (closest) {
+          closest.classList.add("magnetic-engaged");
+        }
+        previousClosest = closest;
       }
 
       if (closest && closestRect) {
@@ -88,7 +100,6 @@ function CursorOverlay() {
         const dx = mouse.x - cx;
         const dy = mouse.y - cy;
 
-        closest.classList.add("magnetic-engaged");
         closest.style.transform = `translate(${dx * PULL_STRENGTH}px, ${dy * PULL_STRENGTH}px)`;
 
         ringTargetX = cx + dx * PULL_STRENGTH;
