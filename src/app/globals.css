@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+:root {
+  --color-charcoal: #1c1b1a;
+  --color-graphite: #3a3836;
+  --color-stone: #8a8580;
+  --color-bone: #f4f1ec;
+  --color-white: #ffffff;
+  --color-espresso: #3b2418;
+  --color-cognac: #8b5a2b;
+  --color-copper: #b87333;
+
+  --background: var(--color-charcoal);
+  --foreground: var(--color-bone);
+}
+
+@theme inline {
+  --color-charcoal: var(--color-charcoal);
+  --color-graphite: var(--color-graphite);
+  --color-stone: var(--color-stone);
+  --color-bone: var(--color-bone);
+  --color-white: var(--color-white);
+  --color-espresso: var(--color-espresso);
+  --color-cognac: var(--color-cognac);
+  --color-copper: var(--color-copper);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-inter-tight);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/*
+ * The custom magnetic cursor replaces the native one — but only once it has
+ * actually mounted (html.custom-cursor-active, set by MagneticCursor itself).
+ * Never hide the native cursor unconditionally: if the custom cursor fails
+ * to mount for any reason, the user is left with no cursor at all.
+ */
+html.custom-cursor-active * {
+  cursor: none !important;
+}
+
+/* Magnetic pull release: spring back via CSS, not inline style, so the
+   cursor's rAF loop never writes a `transition` value into the DOM. */
+[data-magnetic] {
+  transition: transform 0.3s ease-out;
+}
+[data-magnetic].magnetic-engaged {
+  transition: none;
+}
+
+/* Respect reduced motion globally: kill animations/transitions outright */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
