@@ -1,103 +1,84 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { projects, type Project } from "@/data/projects";
-import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import { useState } from "react";
+import { projects } from "@/data/projects";
 import { useFinePointer } from "@/hooks/use-fine-pointer";
 
-const CursorPreviewCanvas = dynamic(
-  () => import("./cursor-preview-canvas").then((mod) => mod.CursorPreviewCanvas),
-  { ssr: false },
-);
-
-const PREVIEW_WIDTH = 420;
-const PREVIEW_HEIGHT = 300;
+// Fan the spines symmetrically around the shelf's center, like books leaning
+// against each other — outer spines tilt and recede further than inner ones.
+const ROTATE_STEP_DEG = 7;
+const DEPTH_STEP_PX = 14;
+const HEIGHT_TWEAK_PX = [0, -10, 6, -6, 10, 0];
 
 export function Projects() {
-  const reducedMotion = useReducedMotion();
   const isFinePointer = useFinePointer();
-  const showCursorPreview = !reducedMotion && isFinePointer;
-  const [activeProject, setActiveProject] = useState<Project | null>(null);
+  const [activeSlug, setActiveSlug] = useState<string | null>(null);
+  // Touch devices have no hover — show every tag so the info isn't hidden.
+  const alwaysShowTags = !isFinePointer;
 
-  const wrapperRef = useRef<HTMLDivElement>(null);
-  const velocityRef = useRef({ x: 0, y: 0 });
-  const targetRef = useRef({ x: 0, y: 0 });
-  const smoothedRef = useRef({ x: 0, y: 0 });
-
-  useEffect(() => {
-    if (!showCursorPreview) return;
-
-    const handleMove = (event: PointerEvent) => {
-      targetRef.current.x = event.clientX;
-      targetRef.current.y = event.clientY;
-    };
-    window.addEventListener("pointermove", handleMove);
-
-    let raf: number;
-    const tick = () => {
-      const prevX = smoothedRef.current.x;
-      const prevY = smoothedRef.current.y;
-
-      smoothedRef.current.x += (targetRef.current.x - prevX) * 0.15;
-      smoothedRef.current.y += (targetRef.current.y - prevY) * 0.15;
-
-      velocityRef.current.x = (smoothedRef.current.x - prevX) * 0.05;
-      velocityRef.current.y = (smoothedRef.current.y - prevY) * 0.05;
-
-      if (wrapperRef.current) {
-        wrapperRef.current.style.transform = `translate3d(${
-          smoothedRef.current.x - PREVIEW_WIDTH / 2
-        }px, ${smoothedRef.current.y - PREVIEW_HEIGHT / 2}px, 0)`;
-      }
-
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-
-    return () => {
-      window.removeEventListener("pointermove", handleMove);
-      cancelAnimationFrame(raf);
-    };
-  }, [showCursorPreview]);
+  const center = (projects.length - 1) / 2;
 
   return (
     <section
       id="projects"
-      className="relative flex min-h-screen w-full flex-col justify-center gap-2 bg-espresso px-[6vw] py-24"
+      className="relative flex min-h-screen w-full flex-col justify-center gap-16 bg-espresso px-[6vw] py-24"
     >
-      <h2 className="font-display mb-12 text-sm uppercase tracking-[0.3em] text-stone">
+      <h2 className="font-display text-sm uppercase tracking-[0.3em] text-stone">
         03 — Case studies
       </h2>
 
-      <ul className="divide-y divide-stone/20 border-y border-stone/20">
-        {projects.map((project) => (
-          <li key={project.slug}>
-            <Link
-              href={`/projects/${project.slug}`}
-              className="group flex items-center justify-between py-8"
-              onMouseEnter={() => showCursorPreview && setActiveProject(project)}
-              onMouseLeave={() => showCursorPreview && setActiveProject(null)}
-            >
-              <span className="font-display text-3xl text-bone transition-colors group-hover:text-copper md:text-5xl">
-                {project.name}
-              </span>
-              <span className="hidden text-stone md:block">{project.blurb}</span>
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <div
+        className="relative mx-auto flex h-[50vh] w-full max-w-5xl items-end justify-center gap-1 md:h-[60vh]"
+        style={{ perspective: "1800px" }}
+      >
+        {projects.map((project, index) => {
+          const offset = index - center;
+          const rotation = offset * ROTATE_STEP_DEG;
+          const depth = -Math.abs(offset) * DEPTH_STEP_PX;
+          const isActive = activeSlug === project.slug;
+          const tagVisible = alwaysShowTags || isActive;
 
-      {showCursorPreview && (
-        <div
-          ref={wrapperRef}
-          className="pointer-events-none fixed top-0 left-0 z-50"
-          style={{ width: PREVIEW_WIDTH, height: PREVIEW_HEIGHT }}
-        >
-          <CursorPreviewCanvas activeProject={activeProject} velocityRef={velocityRef} />
-        </div>
-      )}
+          return (
+            <Link
+              key={project.slug}
+              href={`/projects/${project.slug}`}
+              className="group relative block h-full w-16 shrink-0 focus:outline-none md:w-24"
+              style={{ transformStyle: "preserve-3d" }}
+              onMouseEnter={() => setActiveSlug(project.slug)}
+              onMouseLeave={() => setActiveSlug((current) => (current === project.slug ? null : current))}
+              onFocus={() => setActiveSlug(project.slug)}
+              onBlur={() => setActiveSlug((current) => (current === project.slug ? null : current))}
+            >
+              <span
+                className="absolute bottom-0 left-0 w-full origin-bottom rounded-t-sm shadow-[0_18px_40px_-16px_rgba(0,0,0,0.7)] transition-transform duration-500 ease-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-copper"
+                style={{
+                  height: `calc(100% + ${HEIGHT_TWEAK_PX[index % HEIGHT_TWEAK_PX.length]}px)`,
+                  background: `linear-gradient(135deg, ${project.colorFrom}, ${project.colorTo})`,
+                  transform: isActive
+                    ? "rotateY(0deg) translateZ(48px) scale(1.08)"
+                    : `rotateY(${rotation}deg) translateZ(${depth}px)`,
+                }}
+              >
+                <span
+                  className="font-display absolute inset-0 flex items-center justify-center text-base tracking-wide text-bone/90 md:text-lg"
+                  style={{ writingMode: "vertical-rl" }}
+                >
+                  {project.name}
+                </span>
+              </span>
+
+              <span
+                className={`font-display pointer-events-none absolute -top-12 left-1/2 z-10 -translate-x-1/2 rounded-full border border-copper/60 bg-charcoal px-4 py-1.5 text-sm whitespace-nowrap text-bone transition-all duration-300 ${
+                  tagVisible ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
+                }`}
+              >
+                {project.blurb}
+              </span>
+            </Link>
+          );
+        })}
+      </div>
     </section>
   );
 }
