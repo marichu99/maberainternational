@@ -46,7 +46,7 @@ export function SkillsPhysics() {
     const mouse = Matter.Mouse.create(container);
     const mouseConstraint = Matter.MouseConstraint.create(engine, {
       mouse,
-      constraint: { stiffness: 0.2 },
+      constraint: { stiffness: 0.35 },
     });
     Matter.World.add(world, mouseConstraint);
 
@@ -78,9 +78,16 @@ export function SkillsPhysics() {
       bodies.forEach((body, index) => {
         const pill = pillRefs.current[index];
         if (!pill) return;
+        // The native cursor is hidden by the custom magnetic cursor site-wide,
+        // so there's no "grab" hand to signal these are draggable — lift and
+        // glow the pill under your grip instead, as the feedback that you've
+        // actually picked it up.
+        const isDragged = mouseConstraint.body === body;
+        pill.classList.toggle("pill-dragging", isDragged);
+        const scale = isDragged ? 1.12 : 1;
         pill.style.transform = `translate(${body.position.x - pill.offsetWidth / 2}px, ${
           body.position.y - pill.offsetHeight / 2
-        }px) rotate(${body.angle}rad)`;
+        }px) rotate(${body.angle}rad) scale(${scale})`;
       });
     };
 

@@ -56,6 +56,16 @@ html.custom-cursor-active * {
   transition: none;
 }
 
+/* Toolkit pills: lifted + glowing feedback while actively being dragged.
+   Only box-shadow transitions — transform is driven every physics frame by
+   skills-physics.tsx, so a transition on it would fight the simulation. */
+.pill-dragging {
+  box-shadow:
+    0 10px 30px -8px rgba(0, 0, 0, 0.55),
+    0 0 0 2px var(--color-copper);
+  transition: box-shadow 0.15s ease-out;
+}
+
 /* Respect reduced motion globally: kill animations/transitions outright */
 @media (prefers-reduced-motion: reduce) {
   *,
