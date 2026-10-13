@@ -16,8 +16,9 @@ const interTight = Inter_Tight({
 });
 
 export const metadata: Metadata = {
-  title: "Mabera International",
-  description: "Martin Mabera — software engineer: pension platforms, AI/ML, trading systems, SaaS.",
+  title: "Mabera International — Automation Systems for U.S. Businesses",
+  description:
+    "Mabera International is a Wyoming-incorporated studio that designs and ships automation systems for American businesses — workflow automation, AI agents, and the operational tooling that keeps them running.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

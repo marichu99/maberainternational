@@ -7,8 +7,8 @@ import { useFinePointer } from "@/hooks/use-fine-pointer";
 const MAGNETIC_RADIUS = 80;
 const PULL_STRENGTH = 0.3;
 const DEFAULT_RING_SIZE = 36;
-const PARTICLE_INTERVAL_MS = 45;
-const PARTICLE_LIFETIME_MS = 600;
+const PARTICLE_INTERVAL_MS = 70;
+const PARTICLE_LIFETIME_MS = 450;
 
 type Particle = { x: number; y: number; bornAt: number };
 
@@ -134,8 +134,8 @@ function CursorOverlay() {
           }
           const lifeFraction = 1 - age / PARTICLE_LIFETIME_MS;
           ctx.beginPath();
-          ctx.arc(particle.x, particle.y, 4 * lifeFraction, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(184, 115, 51, ${lifeFraction * 0.5})`;
+          ctx.arc(particle.x, particle.y, 2.5 * lifeFraction, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(184, 115, 51, ${lifeFraction * 0.3})`;
           ctx.fill();
         }
       }

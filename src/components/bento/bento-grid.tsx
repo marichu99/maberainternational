@@ -1,22 +1,20 @@
 "use client";
 
-import { Reorder } from "motion/react";
 import { useState, type ReactNode } from "react";
-import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { BentoTile } from "./bento-tile";
-import { LiveClock } from "./live-clock";
-import { GithubStat } from "./github-stat";
+import { UsCoverage } from "./us-coverage";
+import { EntityBadge } from "./entity-badge";
 
-type TileId = "role" | "stack" | "location" | "clock" | "github" | "contact";
+type TileId = "focus" | "stack" | "location" | "coverage" | "entity" | "contact";
 
 type TileDef = { id: TileId; span: string };
 
-const initialTiles: TileDef[] = [
-  { id: "role", span: "md:col-span-2" },
+const tiles: TileDef[] = [
+  { id: "focus", span: "md:col-span-2" },
   { id: "stack", span: "" },
   { id: "location", span: "" },
-  { id: "clock", span: "" },
-  { id: "github", span: "" },
+  { id: "coverage", span: "" },
+  { id: "entity", span: "" },
   { id: "contact", span: "md:col-span-2" },
 ];
 
@@ -24,21 +22,21 @@ const stack = ["TypeScript", "Python", "React", "Next.js", "SQL", "PyTorch", "MQ
 
 function tileContent(id: TileId): ReactNode {
   switch (id) {
-    case "role":
+    case "focus":
       return (
         <>
           <h3 className="font-display text-sm uppercase tracking-[0.3em] text-copper">
-            Current role
+            What we do
           </h3>
           <p className="font-display mt-3 text-3xl text-bone">
-            Software Engineer — Mabera International
+            Automation systems for U.S. businesses — workflows, AI agents, and reporting.
           </p>
         </>
       );
     case "stack":
       return (
         <>
-          <h3 className="font-display text-sm uppercase tracking-[0.3em] text-copper">Stack</h3>
+          <h3 className="font-display text-sm uppercase tracking-[0.3em] text-copper">Toolkit</h3>
           <ul className="mt-3 flex flex-wrap gap-2">
             {stack.map((item) => (
               <li
@@ -54,16 +52,15 @@ function tileContent(id: TileId): ReactNode {
     case "location":
       return (
         <>
-          <h3 className="font-display text-sm uppercase tracking-[0.3em] text-copper">
-            Location
-          </h3>
+          <h3 className="font-display text-sm uppercase tracking-[0.3em] text-copper">Based</h3>
           <p className="font-display mt-3 text-3xl text-bone">Remote</p>
+          <p className="mt-1 text-sm text-stone">Serving businesses across the U.S.</p>
         </>
       );
-    case "clock":
-      return <LiveClock />;
-    case "github":
-      return <GithubStat />;
+    case "coverage":
+      return <UsCoverage />;
+    case "entity":
+      return <EntityBadge />;
     case "contact":
       return (
         <>
@@ -76,7 +73,7 @@ function tileContent(id: TileId): ReactNode {
             onClick={(event) => event.stopPropagation()}
             className="font-display mt-3 inline-block text-3xl text-bone transition-colors hover:text-copper"
           >
-            Let&apos;s build →
+            Let&apos;s automate →
           </a>
         </>
       );
@@ -84,8 +81,6 @@ function tileContent(id: TileId): ReactNode {
 }
 
 export function BentoGrid() {
-  const reducedMotion = useReducedMotion();
-  const [order, setOrder] = useState(initialTiles);
   const [expandedId, setExpandedId] = useState<TileId | null>(null);
 
   return (
@@ -97,18 +92,10 @@ export function BentoGrid() {
         04 — At a glance
       </h2>
 
-      <Reorder.Group
-        as="div"
-        values={order}
-        onReorder={setOrder}
-        className="grid grid-cols-1 gap-4 md:grid-cols-3"
-      >
-        {order.map((tile) => (
-          <Reorder.Item
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        {tiles.map((tile) => (
+          <div
             key={tile.id}
-            value={tile}
-            as="div"
-            dragListener={!reducedMotion}
             className={expandedId === tile.id ? "md:col-span-2 md:row-span-2" : tile.span}
           >
             <BentoTile
@@ -118,9 +105,9 @@ export function BentoGrid() {
             >
               {tileContent(tile.id)}
             </BentoTile>
-          </Reorder.Item>
+          </div>
         ))}
-      </Reorder.Group>
+      </div>
     </section>
   );
 }

@@ -9,8 +9,8 @@ import { useFinePointer } from "@/hooks/use-fine-pointer";
 
 gsap.registerPlugin(SplitText);
 
-const MIN_WEIGHT = 300;
-const MAX_WEIGHT = 900;
+const MIN_WEIGHT = 350;
+const MAX_WEIGHT = 750;
 const PROXIMITY_RADIUS_PX = 220;
 
 export function HeroHeadline({ reducedMotion }: { reducedMotion: boolean }) {
@@ -71,9 +71,9 @@ export function HeroHeadline({ reducedMotion }: { reducedMotion: boolean }) {
     <h1
       ref={headlineRef}
       className="font-display relative z-10 text-[clamp(3rem,12vw,9rem)] leading-[0.95] text-bone"
-      style={{ fontVariationSettings: '"wght" 300' }}
+      style={{ fontVariationSettings: '"wght" 350' }}
     >
-      Martin Mabera
+      Mabera International
     </h1>
   );
 }

@@ -8,8 +8,8 @@ import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// TODO: replace with the email you want public — this is a placeholder, not marichufx@gmail.com.
-const CONTACT_EMAIL = "hello@example.com";
+// TODO: replace with the business's real public email once registered.
+const CONTACT_EMAIL = "hello@maberainternational.com";
 
 export function Contact() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -49,7 +49,7 @@ export function Contact() {
         ref={headlineRef}
         className="font-display origin-center text-[14vw] leading-[0.9]"
       >
-        Let&apos;s build
+        Let&apos;s automate
       </h2>
       <a
         href={`mailto:${CONTACT_EMAIL}`}

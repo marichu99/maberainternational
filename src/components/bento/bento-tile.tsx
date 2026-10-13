@@ -18,8 +18,8 @@ export function BentoTile({
 
   const rawRotateX = useMotionValue(0);
   const rawRotateY = useMotionValue(0);
-  const rotateX = useSpring(rawRotateX, { stiffness: 150, damping: 15 });
-  const rotateY = useSpring(rawRotateY, { stiffness: 150, damping: 15 });
+  const rotateX = useSpring(rawRotateX, { stiffness: 120, damping: 20 });
+  const rotateY = useSpring(rawRotateY, { stiffness: 120, damping: 20 });
 
   const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
     if (reducedMotion) return;
@@ -27,8 +27,8 @@ export function BentoTile({
     if (!rect) return;
     const px = (event.clientX - rect.left) / rect.width - 0.5;
     const py = (event.clientY - rect.top) / rect.height - 0.5;
-    rawRotateY.set(px * 14);
-    rawRotateX.set(-py * 14);
+    rawRotateY.set(px * 8);
+    rawRotateX.set(-py * 8);
   };
 
   const handlePointerLeave = () => {

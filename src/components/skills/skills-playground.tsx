@@ -20,7 +20,7 @@ export function SkillsPlayground() {
       className="relative min-h-screen w-full overflow-hidden bg-espresso px-[6vw] py-24"
     >
       <h2 className="font-display mb-12 text-sm uppercase tracking-[0.3em] text-stone">
-        05 — Skills
+        05 — Toolkit
       </h2>
 
       {reducedMotion ? (

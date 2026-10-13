@@ -8,13 +8,13 @@ import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// TODO: set this to the actual number of years — drives the background counter.
+// TODO: set this to the founder's actual years of engineering experience — drives the background counter.
 const YEARS_EXPERIENCE = 8;
 
 const statements = [
-  "I build systems that move money safely.",
-  "Pension platforms. AI agents. Trading bots. SaaS.",
-  `${YEARS_EXPERIENCE} years turning complexity into shipped product.`,
+  "We build automation systems that move money and data safely.",
+  "Workflow automation. AI agents. Trading systems. Reporting pipelines.",
+  `${YEARS_EXPERIENCE} years of engineering experience, built into every system we ship.`,
 ];
 
 export function About() {

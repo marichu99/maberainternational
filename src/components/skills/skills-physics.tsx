@@ -21,7 +21,7 @@ export function SkillsPhysics() {
     const width = container.clientWidth;
     const height = container.clientHeight;
 
-    const wallOptions: Matter.IChamferableBodyDefinition = { isStatic: true, restitution: 0.4 };
+    const wallOptions: Matter.IChamferableBodyDefinition = { isStatic: true, restitution: 0.2 };
     const ground = Matter.Bodies.rectangle(width / 2, height + 25, width * 2, 50, wallOptions);
     const ceiling = Matter.Bodies.rectangle(width / 2, -500, width * 2, 50, wallOptions);
     const leftWall = Matter.Bodies.rectangle(-25, height / 2, 50, height * 4, wallOptions);
@@ -33,10 +33,10 @@ export function SkillsPhysics() {
         const rect = pill.getBoundingClientRect();
         return Matter.Bodies.rectangle(
           width / 2 + (Math.random() - 0.5) * width * 0.6,
-          -200 - index * 60,
+          -80 - index * 30,
           rect.width,
           rect.height,
-          { restitution: 0.5, friction: 0.3, chamfer: { radius: rect.height / 2 } },
+          { restitution: 0.25, friction: 0.4, frictionAir: 0.015, chamfer: { radius: rect.height / 2 } },
         );
       })
       .filter((body): body is Matter.Body => body !== null);

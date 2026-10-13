@@ -40,7 +40,7 @@ export default async function ProjectPage({
         </div>
         <div>
           <h2 className="font-display text-sm uppercase tracking-[0.3em] text-copper">
-            What I built
+            What we built
           </h2>
           <p className="mt-3 text-bone">{project.build}</p>
         </div>

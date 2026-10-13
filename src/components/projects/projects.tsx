@@ -68,7 +68,7 @@ export function Projects() {
       className="relative flex min-h-screen w-full flex-col justify-center gap-2 bg-espresso px-[6vw] py-24"
     >
       <h2 className="font-display mb-12 text-sm uppercase tracking-[0.3em] text-stone">
-        03 — Projects
+        03 — Case studies
       </h2>
 
       <ul className="divide-y divide-stone/20 border-y border-stone/20">
