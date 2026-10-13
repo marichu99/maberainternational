@@ -5,7 +5,7 @@ export const skills = [
   "Next.js",
   "SQL",
   "PyTorch",
-  "MQL5",
+  "Flask",
   "Docker",
   "AI/ML",
   "Node.js",

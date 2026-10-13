@@ -13,7 +13,7 @@ const YEARS_EXPERIENCE = 8;
 
 const statements = [
   "We build automation systems that move money and data safely.",
-  "Workflow automation. AI agents. Trading systems. Reporting pipelines.",
+  "Workflow automation. AI agents. Vision pipelines. Reporting dashboards.",
   `${YEARS_EXPERIENCE} years of engineering experience, built into every system we ship.`,
 ];
 

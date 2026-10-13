@@ -18,7 +18,7 @@ const tiles: TileDef[] = [
   { id: "contact", span: "md:col-span-2" },
 ];
 
-const stack = ["TypeScript", "Python", "React", "Next.js", "SQL", "PyTorch", "MQL5", "Docker"];
+const stack = ["TypeScript", "Python", "React", "Next.js", "SQL", "PyTorch", "Flask", "Docker"];
 
 function tileContent(id: TileId): ReactNode {
   switch (id) {

@@ -40,18 +40,6 @@ export const projects: Project[] = [
     colorTo: "#3B2418",
   },
   {
-    slug: "orb-expert-advisor",
-    name: "ORB Expert Advisor",
-    blurb: "MT5 trading automation.",
-    problem:
-      "A systematic trading strategy existed on paper but depended on a trader watching the market open every session to execute it by hand.",
-    build:
-      "An MT5 expert advisor that detects the opening range and manages entries, stops, and position sizing automatically — no manual intervention required.",
-    result: "The strategy now runs unattended across sessions with consistent, rules-based execution.",
-    colorFrom: "#3A3836",
-    colorTo: "#1C1B1A",
-  },
-  {
     slug: "bookie-arbitrage",
     name: "Bookie Arbitrage Scraper",
     blurb: "Odds-monitoring automation.",
@@ -62,6 +50,44 @@ export const projects: Project[] = [
     result: "Opportunity detection moved from manual checking to continuous automated monitoring.",
     colorFrom: "#8A8580",
     colorTo: "#3B2418",
+  },
+  {
+    slug: "wardqueue",
+    name: "WardQueue",
+    blurb: "Job-application bot for UK allied-health roles.",
+    problem:
+      "Allied-health professionals in the UK lose hours re-entering the same information into dozens of job applications on healthjobsuk.com, one posting at a time.",
+    build:
+      "A bot that applies to matching postings on the candidate's behalf, backed by a dashboard that reports how many jobs were applied to today versus how many are still queued.",
+    result:
+      "Job hunting moves from a manual, repetitive task to something that runs in the background while the candidate works.",
+    colorFrom: "#B5472B",
+    colorTo: "#15181A",
+  },
+  {
+    slug: "leviathan",
+    name: "Leviathan",
+    blurb: "Tender and supplier management system.",
+    problem:
+      "Tracking active tenders, suppliers, products, and contracts across spreadsheets made it easy to miss deadlines and lose visibility into which supplier was tied to which contract.",
+    build:
+      "A full-stack system that centralizes tenders, suppliers, products, and contracts behind role-based auth, with a single source of truth for what's active and what's expired.",
+    result: "Tender and contract status is now one query away instead of scattered across spreadsheets.",
+    colorFrom: "#0f3460",
+    colorTo: "#0d1b2a",
+  },
+  {
+    slug: "tally333",
+    name: "Tally333",
+    blurb: "Live election results tallying with AI form reading.",
+    problem:
+      "Parallel vote tabulation for Kenyan elections traditionally needs an army of people manually reading and re-keying results forms from thousands of polling stations before a trustworthy count can be published.",
+    build:
+      "Field agents photograph a results form at their polling station, Claude's vision model reads the candidate names and vote counts off it, and a live dashboard tallies results in real time as submissions are approved — covering all 6 elective positions across 47 counties, 290 constituencies, and roughly 24,600 polling stations.",
+    result:
+      "Results move from a photographed form to a verified, live public tally with no manual data-entry pipeline in between.",
+    colorFrom: "#3B6E53",
+    colorTo: "#1C1B1A",
   },
 ];
 
