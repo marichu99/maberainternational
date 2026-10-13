@@ -22,9 +22,11 @@ export function HeroHeadline({ reducedMotion }: { reducedMotion: boolean }) {
     () => {
       if (!headlineRef.current) return;
 
-      // "words, chars" (not just "chars") — SplitText wraps each word so the
-      // line can only break between words, not mid-word between char spans.
-      const split = SplitText.create(headlineRef.current, { type: "words, chars" });
+      // smartWrap wraps each word in a `white-space: nowrap` span so the line
+      // can only break between words — plain "words, chars" grouping isn't
+      // enough, since the word wrapper itself has no nowrap and still lets
+      // the browser break between the nested char spans inside a long word.
+      const split = SplitText.create(headlineRef.current, { type: "chars", smartWrap: true });
       const chars = split.chars as HTMLElement[];
 
       if (reducedMotion) {
